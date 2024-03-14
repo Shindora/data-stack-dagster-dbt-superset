@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: fact_orders
+    description: |
+      This model represents the fact table containing order-related data.
+      It includes information such as total tax, total discounts, customer ID, item ID, order ID, total price, shipping address ID, created timestamp, cancelled timestamp, billing address ID, and order surrogate key.
+    columns:
+      - name: total_tax
+        description: The total tax for the order.
+      - name: total_discounts
+        description: The total discounts applied to the order.
+      - name: customer_id
+        description: The unique identifier of the customer who placed the order.
+      - name: item_id
+        description: The unique identifier of the item included in the order.
+      - name: order_id
+        description: The unique identifier of the order.
+      - name: total_price_usd
+        description: The total price of the order in USD.
+      - name: shipping_address_id
+        description: The unique identifier of the shipping address associated with the order.
+      - name: created_at
+        description: The timestamp indicating when the order was created.
+      - name: cancelled_at
+        description: The timestamp indicating when the order was cancelled, if applicable.
+      - name: billing_address_id
+        description: The unique identifier of the billing address associated with the order.
+      - name: order_sk
+        description: The surrogate key for the order.

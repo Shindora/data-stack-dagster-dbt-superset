@@ -1,0 +1,5 @@
+declxml==1.1.3
+names==0.3.0
+psycopg2-binary==2.9.9
+polars==0.20.15
+structlog==24.1.0

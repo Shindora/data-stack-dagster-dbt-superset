@@ -1,0 +1,84 @@
+version: 2
+
+models:
+  - name: staging_address
+    description: |
+      This model represents the staging address data obtained from raw customers and orders.
+      It contains unique zip, province, and country combinations.
+    columns:
+      - name: zip
+        description: The zip code of the address.
+      - name: province
+        description: The province of the address.
+      - name: country
+        description: The country of the address.
+    tags:
+      - source: raw_customers
+      - source: raw_orders
+
+  - name: staging_customers
+    description: |
+      This model represents the staging customer data obtained from raw customers.
+      It includes customer details along with a surrogate key for default address.
+    columns:
+      - name: id
+        description: The ID of the customer.
+      - name: created_at
+        description: The creation date of the customer record.
+      - name: email
+        description: The email address of the customer.
+      - name: default_address_id
+        description: The surrogate key for the default address.
+    tags:
+      - source: raw_customers
+
+  - name: staging_items
+    description: |
+      This model represents the staging item data obtained from raw items.
+      It includes details such as item ID, name, price, quantity, etc.
+    columns:
+      - name: id
+        description: The ID of the item.
+      - name: name
+        description: The name of the item.
+      - name: price
+        description: The price of the item.
+      - name: quantity
+        description: The quantity of the item.
+      - name: taxable
+        description: Whether the item is taxable.
+      - name: total_discounts
+        description: The total discounts applied to the item.
+      - name: pre_tax_price
+        description: The price before tax.
+    tags:
+      - source: raw_items
+
+  - name: staging_orders
+    description: |
+      This model represents the staging order data obtained from raw orders.
+      It includes order details such as order ID, customer ID, created date,
+      total price, tax, discounts, billing address ID, and shipping address ID.
+    columns:
+      - name: order_id
+        description: The ID of the order.
+      - name: customer_id
+        description: The ID of the customer associated with the order.
+      - name: item_id
+        description: The ID of the item in the order.
+      - name: created_at
+        description: The creation date of the order.
+      - name: total_price_usd
+        description: The total price of the order in USD.
+      - name: total_tax
+        description: The total tax applied to the order.
+      - name: total_discounts
+        description: The total discounts applied to the order.
+      - name: cancelled_at
+        description: The cancellation date of the order.
+      - name: billing_address_id
+        description: The surrogate key for the billing address.
+      - name: shipping_address_id
+        description: The surrogate key for the shipping address.
+    tags:
+      - source: raw_orders

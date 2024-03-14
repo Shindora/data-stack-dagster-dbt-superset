@@ -1,0 +1,74 @@
+version: "3.7"
+
+services:
+  oltp:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $POSTGRES_DB --username $POSTGRES_USER"]
+      interval: 30s
+      timeout: 60s
+      retries: 5
+      start_period: 45s
+  ingestor:
+    build:
+      context: .
+      dockerfile: ./ingestor/Dockerfile
+      args:
+        POSTGRES_USER: $POSTGRES_USER
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    env_file:
+      - .env
+    volumes:
+      - ./shared:/shared
+    depends_on:
+      oltp:
+        condition: service_healthy
+  dagster-dbt:
+    build:
+      context: .
+      dockerfile: ./dagster-dbt/Dockerfile
+    restart: always
+    env_file:
+      - .env
+    environment:
+        POSTGRES_USER: $POSTGRES_USER
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+        DAGSTER_HOME: /dagster-dbt/ecommerce_dm
+    volumes:
+        - ./shared:/shared
+        - ./dagster-dbt/ecommerce_dm:/dagster-dbt/ecommerce_dm
+    ports:
+        - "3000:3000"
+    command: dagster-webserver -h 0.0.0.0
+    depends_on:
+      ingestor:
+        condition: service_completed_successfully
+  superset:
+    build:
+      context: .
+      dockerfile: ./superset/Dockerfile
+      args:
+        POSTGRES_USER: $POSTGRES_USER
+        POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+        SUPERSET_ADMIN: $SUPERSET_ADMIN
+        SUPERSET_PASSWORD: $SUPERSET_PASSWORD
+        SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY}
+    env_file:
+      - .env
+    environment:
+      SUPERSET_SECRET_KEY: ${SUPERSET_SECRET_KEY}
+    ports:
+        - "8088:8088"
+    command:     gunicorn --bind  "0.0.0.0:8088" --access-logfile '-' --error-logfile '-' --workers 1 --worker-class gthread --threads 20 --timeout 60 --limit-request-line 0 --limit-request-field_size 0 "superset.app:create_app()"
+    volumes:
+        - ./shared/db:/app/superset_home/db
+    depends_on:
+      - dagster-dbt
+      - oltp

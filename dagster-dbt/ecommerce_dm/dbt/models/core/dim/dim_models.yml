@@ -1,0 +1,71 @@
+version: 2
+
+models:
+  - name: dim_address
+    description: |
+      This model represents the dimensional address data.
+      It contains unique addresses along with a surrogate key.
+    columns:
+      - name: address_id
+        description: The surrogate key for the address.
+      - name: zip
+        description: The zip code of the address.
+      - name: province
+        description: The province of the address.
+      - name: country
+        description: The country of the address.
+    tags:
+      - source: staging_address
+
+  - name: dim_customers
+    description: |
+      This model represents the dimensional customer data.
+      It includes customer details along with a surrogate key.
+    columns:
+      - name: id
+        description: The ID of the customer.
+      - name: created_at
+        description: The creation date of the customer record.
+      - name: email
+        description: The email address of the customer.
+      - name: default_address_id
+        description: The surrogate key for the default address.
+    tags:
+      - source: staging_customer
+
+  - name: dim_items
+    description: |
+      This model represents the dimensional item data.
+      It includes details such as item ID, name, price, quantity, etc.
+    columns:
+      - name: id
+        description: The ID of the item.
+      - name: name
+        description: The name of the item.
+      - name: price
+        description: The price of the item.
+      - name: quantity
+        description: The quantity of the item.
+      - name: taxable
+        description: Whether the item is taxable.
+      - name: total_discounts
+        description: The total discounts applied to the item.
+      - name: pre_tax_price
+        description: The price before tax.
+    tags:
+      - source: staging_items
+
+  - name: geography
+    description: |
+      This model represents geography data containing information about cities, countries, and regions.
+    columns:
+      - name: geography_key
+        description: The key identifying the geography record.
+      - name: city_name
+        description: The name of the city.
+      - name: country_name
+        description: The name of the country.
+      - name: region_name
+        description: The name of the region.
+    tags:
+      - source: geography

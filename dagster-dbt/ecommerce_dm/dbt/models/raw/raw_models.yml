@@ -1,0 +1,103 @@
+version: 2
+
+models:
+  - name: raw_customers
+    description: |
+      This model represents raw customer data.
+    columns:
+      - name: id
+        description: The ID of the customer.
+      - name: created_at
+        description: The creation timestamp of the customer record.
+      - name: email
+        description: The email address of the customer.
+      - name: default_address__zip
+        description: The zip code of the default address.
+      - name: default_address__province
+        description: The province of the default address.
+      - name: default_address__country
+        description: The country of the default address.
+    tags:
+      - source: postgres_raw_customers
+
+  - name: raw_items
+    description: |
+      This model represents raw item data.
+    columns:
+      - name: order_id
+        description: The ID of the order.
+      - name: id
+        description: The ID of the item.
+      - name: gift_card
+        description: Boolean indicating whether the item is a gift card.
+      - name: grams
+        description: The weight of the item in grams.
+      - name: name
+        description: The name of the item.
+      - name: price
+        description: The price of the item.
+      - name: quantity
+        description: The quantity of the item.
+      - name: sku
+        description: The SKU of the item.
+      - name: taxable
+        description: Boolean indicating whether the item is taxable.
+      - name: title
+        description: The title of the item.
+      - name: total_discount
+        description: The total discount applied to the item.
+      - name: pre_tax_price
+        description: The price of the item before tax.
+      - name: has_message
+        description: Boolean indicating whether the item has a message.
+    tags:
+      - source: postgres_raw_items
+
+  - name: raw_orders
+    description: |
+      This model represents raw order data.
+    columns:
+      - name: id
+        description: The ID of the order.
+      - name: created_at
+        description: The creation timestamp of the order.
+      - name: customer_id
+        description: The ID of the customer associated with the order.
+      - name: contact_email
+        description: The contact email associated with the order.
+      - name: billing_address__zip
+        description: The zip code of the billing address.
+      - name: shipping_address__zip
+        description: The zip code of the shipping address.
+      - name: billing_address__province
+        description: The province of the billing address.
+      - name: shipping_address__province
+        description: The province of the shipping address.
+      - name: billing_address__country
+        description: The country of the billing address.
+      - name: shipping_address__country
+        description: The country of the shipping address.
+      - name: total_price_usd
+        description: The total price of the order in USD.
+      - name: total_tax
+        description: The total tax applied to the order.
+      - name: total_discounts
+        description: The total discounts applied to the order.
+      - name: cancel_reason
+        description: The reason for order cancellation.
+      - name: cancelled_at
+        description: The timestamp when the order was cancelled.
+      - name: device_id
+        description: The ID of the device used to place the order.
+      - name: gateway
+        description: The payment gateway used for the order.
+      - name: referring_site
+        description: The referring site for the order.
+      - name: landing_site
+        description: The landing site for the order.
+      - name: client_details__browser_width
+        description: The browser width of the client.
+      - name: buyer_accepts_marketing
+        description: Boolean indicating whether the buyer accepts marketing.
+    tags:
+      - source: postgres_raw_orders

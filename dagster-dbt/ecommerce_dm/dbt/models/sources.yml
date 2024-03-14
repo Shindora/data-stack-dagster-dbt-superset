@@ -1,0 +1,20 @@
+## Refer to Using dbt with Dagster, part one for info about this file:
+## https://docs.dagster.io/integrations/dbt/using-dbt-with-dagster/part-one
+
+version: 2
+
+sources:
+  - name: postgres
+    # meta:
+    #   external_location: "postgres_scan('postgresql://{{ env_var('POSTGRES_USER') }}:{{ env_var('POSTGRES_PASSWORD') }}@postgres:5432/postgres','public')"
+    schema: public
+    tables:
+      - name: raw_customers
+      - name: raw_items
+      - name: raw_orders
+
+
+
+
+
+
