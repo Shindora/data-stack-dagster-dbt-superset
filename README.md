@@ -2,6 +2,9 @@
 
 This application is an ETL pipeline for an Ecommerce selling.
 
+# Architecture
+![Dagit](resources/architecture.png "Architecture")
+
 ## Stack
 
 - Dagster
